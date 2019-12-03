@@ -19,10 +19,10 @@
     ];
 
 
- 	/**
- 	 * Separador utilizado 
- 	 */
- 	private $separator = null;
+    /**
+     * Separador utilizado 
+     */
+    private $separator = null;
      
 
     /**
@@ -31,9 +31,9 @@
     private $numValidationSeparator = 10;
 
 
- 	/**
- 	 * Separadores permitidos
- 	 */
+    /**
+     * Separadores permitidos
+     */
     private $defaultSeparators = [';', ',', '\t', ' '];
 
 
@@ -55,44 +55,44 @@
     private $file;
  
  
- 	/**
-	 * processFile()
-	 *
-	 * Processa arquivos CSV decompondo-o em partes para posterior manipulação
-	 * @param array $filePath Local do arquivo 
-	 */
-	public function processFile(string $filePath) : SpreadsheetManagerInterface
-	{
-		// Se arquivo estiver sendo recebido via formulário
-		if (file_exists($filePath) && !is_dir($filePath))  {
+    /**
+     * processFile()
+     *
+     * Processa arquivos CSV decompondo-o em partes para posterior manipulação
+     * @param array $filePath Local do arquivo 
+     */
+    public function processFile(string $filePath) : SpreadsheetManagerInterface
+    {
+        // Se arquivo estiver sendo recebido via formulário
+        if (file_exists($filePath) && !is_dir($filePath))  {
             $this->file = file($filePath);
-		}
+        }
         
-		return $this;
-	}
+        return $this;
+    }
 
 
-	/**
-	 * getHeader()
-	 *
-	 * Obtem o header do arquivo através de processamento interno
-	 */
-	public function getHeader() : array
-	{       
+    /**
+     * getHeader()
+     *
+     * Obtem o header do arquivo através de processamento interno
+     */
+    public function getHeader() : array
+    {       
         $this->setSeparator($this->separator);
         $this->setHeader(); 
 
         return $this->header;
-	}
+    }
 
 
-	/**
-	 * getcontent()
-	 *
-	 * Obtem o conteúdo do arquivo através de processamento interno
-	 */
-	public function get() : array
-	{        
+    /**
+     * getcontent()
+     *
+     * Obtem o conteúdo do arquivo através de processamento interno
+     */
+    public function get() : array
+    {        
         $this->setSeparator($this->separator);        
         $this->setHeader();
         $this->setContent();
@@ -101,30 +101,30 @@
     }
         
 
-	/**
-	 * getObject()
-	 *
-	 * Transforma os dados em um array de objetos
-	 * @return array Dados
-	 */
-	public function getObject() : array
-	{        
+    /**
+     * getObject()
+     *
+     * Transforma os dados em um array de objetos
+     * @return array Dados
+     */
+    public function getObject() : array
+    {        
         $this->setSeparator($this->separator);
         $this->setHeader();
         $this->setContent(true);
         
         return $this->content;
-	}
-	
+    }
+    
 
-	/**
-	 * getSeparator()
-	 *
-	 * Identifica o separador utilizado no arquivo
-	 * @return string Separador 
-	 */
-	public function getSeparator() : string
-	{
+    /**
+     * getSeparator()
+     *
+     * Identifica o separador utilizado no arquivo
+     * @return string Separador 
+     */
+    public function getSeparator() : string
+    {
         $this->setSeparator($this->separator);
         $this->setHeader();
 
@@ -144,17 +144,17 @@
     }
 
 
-	/**
-	 * addSeparator()
-	 *
-	 * Adiciona separador à lista de separadores padrão
-	 * @param string $separator Separador
-	 */
-	public function addSeparator(string $separator) : SpreadsheetManagerInterface
-	{
-		$this->defaultSeparators[] = $separator;
+    /**
+     * addSeparator()
+     *
+     * Adiciona separador à lista de separadores padrão
+     * @param string $separator Separador
+     */
+    public function addSeparator(string $separator) : SpreadsheetManagerInterface
+    {
+        $this->defaultSeparators[] = $separator;
 
-		return $this;
+        return $this;
     }
 
 
@@ -269,8 +269,10 @@
 
                 // Obtem array de objetos
                 if ($asObject) {
-                    $this->content[$i] = (object)$this->content[$i];
-                }
+                    if (isset($this->content[$i])) {
+                        $this->content[$i] = (object)$this->content[$i];
+                    }
+                }                 
             }
 
             unset($aux);
